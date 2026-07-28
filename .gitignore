@@ -13,8 +13,8 @@ venv/
 
 .claude
 
-# Slide render output
-slides/build/
+# Slides (kept locally, removed from the repo — history is preserved)
+slides/
 
 # Exported decks dropped in the repo root
 /*.pdf
