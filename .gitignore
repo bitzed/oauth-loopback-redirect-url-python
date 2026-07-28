@@ -1,0 +1,14 @@
+# Local secrets / config
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Logs & OS files
+*.log
+.DS_Store
+
+.claude
