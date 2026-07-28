@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 450" font-family="Helvetica Neue, Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a5f7a"/>
+    </marker>
+    <style>
+      .lbl  { font-size: 20px; fill: #12233b; font-weight: 600; }
+      .sub  { font-size: 15px; fill: #4a5f7a; }
+      .hd   { font-size: 21px; font-weight: 700; }
+      .tag  { font-size: 15px; font-weight: 700; letter-spacing: .08em; }
+      .edge { stroke: #4a5f7a; stroke-width: 2; fill: none; marker-end: url(#ah); }
+      .chip { fill: #ffffff; stroke: #c9d4e3; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- root question -->
+  <rect x="400" y="0" width="360" height="52" rx="26" fill="#12314f"/>
+  <text x="580" y="33" class="hd" fill="#ffffff" text-anchor="middle">Can the app keep a secret?</text>
+
+  <!-- branch lines -->
+  <path class="edge" d="M470,52 L470,74 L270,74 L270,100"/>
+  <path class="edge" d="M690,52 L690,74 L900,74 L900,100"/>
+  <text x="352" y="68" class="tag" fill="#c0392b">NO</text>
+  <text x="800" y="68" class="tag" fill="#1c7c4a">YES</text>
+
+  <!-- LEFT: public client -->
+  <rect x="40" y="100" width="460" height="256" rx="10" fill="#fdeaea" stroke="#c0392b" stroke-width="2"/>
+  <text x="270" y="130" class="hd" fill="#c0392b" text-anchor="middle">PUBLIC CLIENT</text>
+  <text x="270" y="153" class="sub" text-anchor="middle">Ships to the user. Anyone can read the binary.</text>
+
+  <rect class="chip" x="64" y="170" width="200" height="54" rx="7"/>
+  <text x="164" y="193" class="lbl" text-anchor="middle">Desktop app</text>
+  <text x="164" y="213" class="sub" text-anchor="middle">Electron, native GUI</text>
+
+  <rect class="chip" x="276" y="170" width="200" height="54" rx="7"/>
+  <text x="376" y="193" class="lbl" text-anchor="middle">CLI tool</text>
+  <text x="376" y="213" class="sub" text-anchor="middle">scripts, dev tooling</text>
+
+  <rect class="chip" x="64" y="236" width="200" height="54" rx="7"/>
+  <text x="164" y="259" class="lbl" text-anchor="middle">Mobile app</text>
+  <text x="164" y="279" class="sub" text-anchor="middle">iOS, Android</text>
+
+  <rect class="chip" x="276" y="236" width="200" height="54" rx="7"/>
+  <text x="376" y="259" class="lbl" text-anchor="middle">SPA</text>
+  <text x="376" y="279" class="sub" text-anchor="middle">browser JavaScript</text>
+
+  <rect x="64" y="302" width="412" height="38" rx="7" fill="#c0392b"/>
+  <text x="270" y="327" class="lbl" style="fill:#ffffff" text-anchor="middle">PKCE is mandatory</text>
+
+  <!-- RIGHT: confidential client -->
+  <rect x="670" y="100" width="450" height="256" rx="10" fill="#e9f5ee" stroke="#1c7c4a" stroke-width="2"/>
+  <text x="895" y="130" class="hd" fill="#1c7c4a" text-anchor="middle">CONFIDENTIAL CLIENT</text>
+  <text x="895" y="153" class="sub" text-anchor="middle">Runs on hardware you control.</text>
+
+  <rect class="chip" x="694" y="170" width="402" height="54" rx="7"/>
+  <text x="895" y="193" class="lbl" text-anchor="middle">Server-side web app</text>
+  <text x="895" y="213" class="sub" text-anchor="middle">secret in an env var, vault, or config</text>
+
+  <rect class="chip" x="694" y="236" width="402" height="54" rx="7"/>
+  <text x="895" y="259" class="lbl" text-anchor="middle">Backend service / server-to-server</text>
+  <text x="895" y="279" class="sub" text-anchor="middle">no browser, no end user present</text>
+
+  <rect x="694" y="302" width="402" height="38" rx="7" fill="#1c7c4a"/>
+  <text x="895" y="327" class="lbl" style="fill:#ffffff;font-size:17px" text-anchor="middle">client_secret works (PKCE still advised)</text>
+
+  <!-- bottom band -->
+  <rect x="40" y="384" width="1080" height="50" rx="8" fill="#d3e6f6" stroke="#0b6ebd" stroke-width="2"/>
+  <text x="580" y="415" class="lbl" style="fill:#0b6ebd" text-anchor="middle">
+    This deck: a CLI tool on your own machine — loopback redirect URI + PKCE
+  </text>
+</svg>

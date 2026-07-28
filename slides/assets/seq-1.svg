@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 470" font-family="Helvetica Neue, Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="s1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b6ebd"/>
+    </marker>
+    <marker id="s1d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a5f7a"/>
+    </marker>
+    <style>
+      .lane { fill: #12314f; }
+      .lanetxt { font-size: 15px; fill: #ffffff; font-weight: 700; letter-spacing: .04em; }
+      .life { stroke: #b6c4d6; stroke-width: 1.5; }
+      .req  { stroke: #0b6ebd; stroke-width: 2.2; marker-end: url(#s1); }
+      .res  { stroke: #4a5f7a; stroke-width: 1.8; stroke-dasharray: 6 4; marker-end: url(#s1d); }
+      .msg  { font-size: 14.5px; fill: #12233b; }
+      .mono { font-family: SFMono-Regular, Menlo, monospace; font-size: 13.5px; fill: #0b6ebd; font-weight: 600; }
+      .num  { font-size: 13px; fill: #ffffff; font-weight: 700; }
+      .self { fill: #ffffff; stroke: #0b6ebd; stroke-width: 2; }
+      .selftxt { font-size: 14.5px; fill: #12233b; font-weight: 600; }
+    </style>
+  </defs>
+
+  <!-- lane headers -->
+  <rect class="lane" x="40"  y="0" width="220" height="34" rx="6"/>
+  <text x="150" y="23" class="lanetxt" text-anchor="middle">main.py</text>
+  <rect class="lane" x="310" y="0" width="240" height="34" rx="6"/>
+  <text x="430" y="23" class="lanetxt" text-anchor="middle">LOOPBACK LISTENER</text>
+  <rect class="lane" x="610" y="0" width="240" height="34" rx="6"/>
+  <text x="730" y="23" class="lanetxt" text-anchor="middle">SYSTEM BROWSER</text>
+  <rect class="lane" x="890" y="0" width="240" height="34" rx="6"/>
+  <text x="1010" y="23" class="lanetxt" text-anchor="middle">ZOOM /authorize</text>
+
+  <!-- lifelines -->
+  <line class="life" x1="150"  y1="34" x2="150"  y2="452"/>
+  <line class="life" x1="430"  y1="34" x2="430"  y2="452"/>
+  <line class="life" x1="730"  y1="34" x2="730"  y2="452"/>
+  <line class="life" x1="1010" y1="34" x2="1010" y2="452"/>
+
+  <!-- 1. self: generate PKCE -->
+  <rect class="self" x="54" y="54" width="270" height="42" rx="7"/>
+  <text x="189" y="72" class="selftxt" text-anchor="middle">generate code_verifier + state</text>
+  <text x="189" y="89" class="mono" text-anchor="middle">challenge = SHA256(verifier)</text>
+  <circle cx="46" cy="75" r="11" fill="#0b6ebd"/><text x="46" y="80" class="num" text-anchor="middle">1</text>
+
+  <!-- 2. bind -->
+  <line class="req" x1="150" y1="130" x2="424" y2="130"/>
+  <text x="287" y="124" class="mono" text-anchor="middle">bind 127.0.0.1:0</text>
+  <circle cx="46" cy="130" r="11" fill="#0b6ebd"/><text x="46" y="135" class="num" text-anchor="middle">2</text>
+
+  <!-- 3. port returned -->
+  <line class="res" x1="430" y1="166" x2="156" y2="166"/>
+  <text x="293" y="160" class="msg" text-anchor="middle">OS assigned port <tspan class="mono">54929</tspan></text>
+  <circle cx="46" cy="166" r="11" fill="#4a5f7a"/><text x="46" y="171" class="num" text-anchor="middle">3</text>
+
+  <!-- 4. open browser -->
+  <line class="req" x1="150" y1="216" x2="724" y2="216"/>
+  <text x="437" y="197" class="msg" text-anchor="middle">open authorize URL in the system browser</text>
+  <text x="437" y="211" class="mono" text-anchor="middle">client_id, redirect_uri=…:54929/callback, code_challenge, S256, state</text>
+  <circle cx="46" cy="216" r="11" fill="#0b6ebd"/><text x="46" y="221" class="num" text-anchor="middle">4</text>
+
+  <!-- 5. GET authorize -->
+  <line class="req" x1="730" y1="262" x2="1004" y2="262"/>
+  <text x="867" y="256" class="mono" text-anchor="middle">GET /oauth/authorize?…</text>
+  <circle cx="46" cy="262" r="11" fill="#0b6ebd"/><text x="46" y="267" class="num" text-anchor="middle">5</text>
+
+  <!-- 6. consent screen -->
+  <line class="res" x1="1010" y1="300" x2="736" y2="300"/>
+  <text x="873" y="294" class="msg" text-anchor="middle">consent screen — user clicks Allow</text>
+  <circle cx="46" cy="300" r="11" fill="#4a5f7a"/><text x="46" y="305" class="num" text-anchor="middle">6</text>
+
+  <!-- 7. 302 redirect -->
+  <line class="res" x1="1010" y1="352" x2="736" y2="352"/>
+  <text x="700" y="333" class="msg" text-anchor="middle">302 Found — the browser is sent back to your own machine</text>
+  <text x="700" y="347" class="mono" text-anchor="middle">Location: http://127.0.0.1:54929/callback?code=…&amp;state=…</text>
+  <circle cx="46" cy="352" r="11" fill="#4a5f7a"/><text x="46" y="357" class="num" text-anchor="middle">7</text>
+
+  <!-- 8. browser hits listener -->
+  <line class="req" x1="730" y1="402" x2="436" y2="402"/>
+  <text x="583" y="396" class="mono" text-anchor="middle">GET /callback?code=…&amp;state=…</text>
+  <circle cx="46" cy="402" r="11" fill="#0b6ebd"/><text x="46" y="407" class="num" text-anchor="middle">8</text>
+
+  <!-- footer note -->
+  <rect x="40" y="426" width="1090" height="36" rx="6" fill="#d3e6f6"/>
+  <text x="585" y="450" class="msg" text-anchor="middle" font-weight="600">
+    The code_challenge went up at step 4. The code_verifier has not left the process yet.
+  </text>
+</svg>

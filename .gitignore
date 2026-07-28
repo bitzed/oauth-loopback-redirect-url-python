@@ -12,3 +12,10 @@ venv/
 .DS_Store
 
 .claude
+
+# Slide render output
+slides/build/
+
+# Exported decks dropped in the repo root
+/*.pdf
+/*.pptx

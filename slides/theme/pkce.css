@@ -1,0 +1,382 @@
+/* @theme pkce
+ *
+ * Deck theme for "How to Use PKCE OAuth".
+ *
+ * Overflow policy — the whole reason this file exists:
+ *   - Every slide is a flex column with a hard `overflow: hidden`, so anything
+ *     that would spill is visible immediately at authoring time instead of
+ *     silently bleeding off the page in the PDF.
+ *   - Base font is deliberately small (22px) and code is smaller still. Slides
+ *     are meant to be skeletal; the prose lives in SPEAKER-SCRIPT.md.
+ *   - Tables and <pre> shrink further via utility classes (.tight, .xtight).
+ */
+
+@import 'default';
+
+:root {
+  --ink: #12233b;
+  --ink-soft: #4a5f7a;
+  --bg: #eef1f7;
+  --bg-deep: #12314f;
+  --panel: #ffffff;
+  --line: #c9d4e3;
+  --accent: #0b6ebd;
+  --accent-soft: #d3e6f6;
+  --warn: #b4530a;
+  --danger: #c0392b;
+  --ok: #1c7c4a;
+  --mono: 'SFMono-Regular', 'JetBrains Mono', Menlo, Consolas, monospace;
+}
+
+section {
+  width: 1280px;
+  height: 720px;
+  padding: 44px 56px 52px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+  font-size: 22px;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden; /* fail loud, not silently */
+}
+
+/* ── Headings ─────────────────────────────────────────────────────────── */
+
+section h1 {
+  font-size: 40px;
+  line-height: 1.15;
+  margin: 0 0 18px;
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+section h2 {
+  font-size: 26px;
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+section h3 {
+  font-size: 21px;
+  margin: 14px 0 4px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Accent rule above the title. */
+section h1::before {
+  content: '';
+  display: block;
+  width: 54px;
+  height: 4px;
+  background: var(--accent);
+  margin-bottom: 16px;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────── */
+
+section ul,
+section ol {
+  margin: 4px 0;
+  padding-left: 1.1em;
+}
+
+section li {
+  margin: 5px 0;
+}
+
+section li::marker {
+  color: var(--accent);
+}
+
+strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+em {
+  color: var(--ink-soft);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: #dde5ef;
+  color: var(--ink);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+pre {
+  background: #0d1b2c;
+  border: none;
+  border-left: 4px solid var(--accent);
+  border-radius: 7px;
+  padding: 14px 16px;
+  margin: 8px 0;
+  font-size: 16px;
+  line-height: 1.45;
+  overflow: hidden;
+}
+
+pre code {
+  background: none;
+  color: #dbe6f2;
+  font-size: inherit;
+  padding: 0;
+}
+
+/* Marp's default highlight palette is too low-contrast on a projector — strings
+ * and comments wash out against the dark block. Brighten the tokens we use. */
+pre code .hljs-comment,
+pre code .hljs-quote { color: #8ba7c4; font-style: italic; }
+pre code .hljs-string,
+pre code .hljs-meta-string { color: #86d9a8; }
+pre code .hljs-keyword,
+pre code .hljs-selector-tag { color: #ff9b9b; }
+pre code .hljs-number,
+pre code .hljs-literal { color: #f2c777; }
+pre code .hljs-title,
+pre code .hljs-title.function_,
+pre code .hljs-section { color: #8fcaf9; }
+pre code .hljs-built_in,
+pre code .hljs-type { color: #c9a6f5; }
+pre code .hljs-attr,
+pre code .hljs-variable,
+pre code .hljs-params { color: #dbe6f2; }
+/* f-string interpolations sit inside .hljs-string and inherit its colour;
+ * without this, {api_base} and friends nearly vanish. */
+pre code .hljs-subst { color: #ffd9a0; }
+
+/* Code slides run long — these dial the size down per slide. */
+section.tight pre { font-size: 14.5px; line-height: 1.4; }
+section.xtight pre { font-size: 13px; line-height: 1.35; }
+
+blockquote {
+  border: none;
+  border-left: 4px solid var(--accent);
+  background: var(--panel);
+  margin: 10px 0;
+  padding: 10px 18px;
+  font-size: 21px;
+  color: var(--ink);
+}
+
+blockquote p { margin: 0; }
+
+/* ── Tables ───────────────────────────────────────────────────────────── */
+
+table {
+  /* `display: table` is load-bearing. Marp's bundled default theme ships
+   * `table { display: block; overflow: auto; width: max-content }` for
+   * scrollable GitHub-style tables. Left as a block, our `width: 100%` +
+   * `background` stretch the block box while the real table grid inside
+   * shrink-wraps — painting an empty white panel right of the last column. */
+  display: table;
+  table-layout: auto;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 19px;
+  background: var(--panel);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+td, th { overflow-wrap: break-word; }
+
+th {
+  background: var(--bg-deep);
+  color: #fff;
+  text-align: left;
+  padding: 9px 13px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+td {
+  padding: 8px 13px;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+}
+
+tr:nth-child(even) td { background: #f7f9fc; }
+
+section.tight table { font-size: 17px; }
+section.tight td { padding: 6px 11px; }
+section.xtight table { font-size: 15px; }
+section.xtight td { padding: 4px 9px; }
+section.xtight th { padding: 6px 9px; font-size: 14px; }
+
+/* ── Layout helpers ───────────────────────────────────────────────────── */
+
+/* Two columns. Use with <div class="cols"> … </div> */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.cols.narrow-left { grid-template-columns: 0.8fr 1.2fr; }
+.cols.narrow-right { grid-template-columns: 1.2fr 0.8fr; }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 20px;
+  /* Explicit, not inherited: on the dark `demo` slides the section colour is
+   * near-white, which is invisible on a white card. */
+  color: var(--ink);
+}
+
+.card h4 {
+  margin: 0 0 6px;
+  font-size: 19px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card p { margin: 4px 0; }
+.card ul { margin: 2px 0; }
+
+/* Wrap the body of a sparse slide in <div class="grow"> to vertically centre it
+ * in the space between the title and the takeaway, instead of leaving a void. */
+.grow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  gap: 10px;
+}
+
+.grow > :first-child { margin-top: 0; }
+.grow > :last-child { margin-bottom: 0; }
+
+/* A single emphasised takeaway pinned to the bottom of the slide. */
+.takeaway {
+  margin-top: auto;
+  background: var(--panel);
+  border-left: 5px solid var(--accent);
+  padding: 11px 18px;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.takeaway.warn { border-left-color: var(--warn); }
+.takeaway.danger { border-left-color: var(--danger); }
+
+/* Diagram wrapper — SVGs use viewBox so they scale, never overflow. */
+.diagram {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  margin: 4px 0;
+}
+
+.diagram svg,
+.diagram img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+}
+
+/* Small print under a diagram or table. */
+.note {
+  font-size: 17px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+.note code { font-size: 0.9em; }
+
+/* ── Section title slides ─────────────────────────────────────────────── */
+
+section.lead,
+section.title {
+  background: var(--bg-deep);
+  color: #eaf1f8;
+  justify-content: center;
+  text-align: center;
+}
+
+section.title h1,
+section.lead h1 {
+  color: #fff;
+  font-size: 52px;
+  margin-bottom: 14px;
+}
+
+section.lead h1 { font-size: 44px; }
+
+section.title h1::before,
+section.lead h1::before {
+  margin: 0 auto 20px;
+}
+
+section.title p,
+section.lead p {
+  color: #9fb8d2;
+  font-size: 23px;
+  margin: 6px 0;
+}
+
+section.title strong,
+section.lead strong { color: #6cb6f0; }
+
+section.lead code {
+  background: #24405c;
+  color: #cfe2f4;
+}
+
+/* ── Demo slides get a terminal look ─────────────────────────────────── */
+
+section.demo { background: #0d1b2c; color: #dbe6f2; }
+section.demo h1 { color: #fff; }
+section.demo pre { border-left-color: #6cb6f0; background: #071120; }
+section.demo .note { color: #8ba7c4; }
+section.demo strong { color: #6cb6f0; }
+section.demo .takeaway {
+  background: #16283d;
+  color: #dbe6f2;
+  border-left-color: #6cb6f0;
+}
+
+/* ── Footer / pagination ─────────────────────────────────────────────── */
+
+section::after {
+  font-size: 14px;
+  color: var(--ink-soft);
+  right: 26px;
+  bottom: 16px;
+}
+
+section.title::after,
+section.lead::after,
+section.demo::after { color: #6d8bab; }
+
+footer {
+  font-size: 15px;
+  color: var(--ink-soft);
+  left: 56px;
+  bottom: 16px;
+}
+
+section.demo footer,
+section.lead footer,
+section.title footer { color: #6d8bab; }
